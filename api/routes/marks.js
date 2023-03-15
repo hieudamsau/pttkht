@@ -3,6 +3,9 @@ const router = express.Router();
 const markController = require('../controller/markController');
 const { checkAccessToken, checkAdminAndTeacher } = require('../middlewares/jwt_token');
 
+
+
+router.get('/all-paging',markController.getAllPaging);
 router.get('/:ma_sv', markController.getByMsv);
 router.post('/', markController.create);
 router.delete('/:id', markController.delete);

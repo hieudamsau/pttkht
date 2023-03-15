@@ -1,7 +1,7 @@
 const models = require('../../models');
 
-// models.marks.belongsTo(models.users,{ foreignKey: 'user_id' }
-// )
+models.marks.belongsTo(models.users,{ foreignKey: 'user_id' }
+)
 
 exports.create = async (data) =>{
     return models.marks.create(data);
@@ -28,9 +28,27 @@ exports.getByMsv = async (ma_sv) => {
         },
         include:[{
             model: models.users,
-            attributes: ["full_name","avatar"]
+            attributes: ["id","role","full_name","avatar"]
           }
           ]
     })
 }
 
+exports.getAllPaging = (searchViewModel) => {
+    limit = searchViewModel.limit;
+    offset = searchViewModel.offset;
+    const query = searchViewModel.query;
+    let condition = {
+        deleted: 0,
+    };
+    return models.marks.findAndCountAll({
+        where: condition,
+        limit: limit,
+        offset: offset,
+        include:[{
+            model: models.users,
+            attributes: ["id","full_name","avatar"]
+          }
+          ]
+    });
+};

@@ -3,7 +3,8 @@ const userController = require("../controller/userController");
 const { checkAccessToken, checkAdminAndTeacher } = require('../middlewares/jwt_token');
 const router = express.Router();
 
-router.get('/all-paging',userController.allPaging);
+router.get('/all-paging-teacher',userController.getAllPagingTeacher);
+router.get('/all-paging-student',userController.getAllPagingStudent);
 router.get('/:id',userController.getById);
 router.post('/create',checkAccessToken,checkAdminAndTeacher,userController.create);
 router.post('/login',userController.login);

@@ -46,9 +46,33 @@ exports.getByMsv = async (req,res,next) =>{
     try {
         let ma_sv = req.params.ma_sv;
         let result = await markService.getByMsv(ma_sv);
-        res.json(responseSuccess(result));
+        const data = [];
+        data.push(result.dataValues)
+        console.log(data)
+        res.json(responseSuccess(data));
     } catch (error) {
         console.log(error);
         res.json(responseWithError(error));
     }
+}   
+
+
+
+exports.getAllPaging = async (req, res, next) => {
+    const page = parseInt(req.query.page_index) || 1;
+    const size = parseInt(req.query.page_size);
+    const { limit, offset } = Paginator.getPagination(page, size);
+    const query = req.query;
+    const condition = {
+        limit,
+        offset,
+        query
+    };
+    markService.getAllPaging(condition).then((data) => {
+        const response = Paginator.getPagingData(data, page, limit);
+        res.json(responseSuccess({ total_items: response.total_items, total_pages: response.total_pages, current_page: response.current_page, data: response.rows }))
+    }).catch((err) => {
+        console.log(err);
+        return res.json(responseWithError(ErrorCodes.ERROR_CODE_SYSTEM_ERROR, 'error', err));
+    });
 }

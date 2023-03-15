@@ -181,6 +181,22 @@ exports.getAllPagingStudent = (searchViewModel) => {
     const query = searchViewModel.query;
     let condition = {
         deleted: 0,
+        role : 3
+    };
+    return models.users.findAndCountAll({
+        where: condition,
+        limit: limit,
+        offset: offset
+    });
+};
+
+exports.getAllPagingTeacher = (searchViewModel) => {
+    limit = searchViewModel.limit;
+    offset = searchViewModel.offset;
+    const query = searchViewModel.query;
+    let condition = {
+        deleted: 0,
+        role : 2
     };
     return models.users.findAndCountAll({
         where: condition,
