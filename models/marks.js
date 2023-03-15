@@ -15,7 +15,7 @@ module.exports = function (sequelize, DataTypes) {
                 type: Sequelize.STRING(255),
             },
             user_id: {
-                type: Sequelize.STRING(255),
+                type: Sequelize.INTEGER(4),
             },
             status: {
                 type: Sequelize.INTEGER(2),
